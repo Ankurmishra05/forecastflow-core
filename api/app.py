@@ -3,7 +3,15 @@ from pydantic import BaseModel
 import joblib
 import numpy as np
 import pandas as pd
+import os
+from src.pipeline import run_pipeline
 
+model_path = "artifacts/model.pkl"
+
+if not os.path.exists(model_path):
+    print("Model not found. Training inside container...")
+    run_pipeline()
+    
 app = FastAPI()
 
 # Load model
