@@ -1,93 +1,91 @@
 # ForecastFlow
 
-This is a full-stack machine learning project where I tried to go beyond just training a model and actually build something closer to a real-world system.
+This is a full-stack machine learning project built to go beyond model training and into a more realistic application setup.
 
-The idea was simple:
-👉 Take past time-series values and predict the next one.
+The idea is simple:
+Take past time-series values and predict the next one.
 
-But instead of stopping at a notebook, I turned it into a complete application with backend, frontend, and deployment.
-
----
-
-## 🌐 Live Demo
-
-* Frontend: https://forecastflow-ui.vercel.app
-* Backend API: https://forecastflow-7xq6.onrender.com/docs
+Instead of stopping at a notebook, this project includes backend, frontend, CI, and deployment.
 
 ---
 
-## 📌 What this project does
+## Live Demo
 
-You give it recent values (like last 7 data points), and it predicts the next value using a trained ML model.
-
-I built the whole flow:
-
-**Data → Features → Model → API → UI → Deployment**
+- Frontend: https://forecastflow-ui.vercel.app
+- Backend API: https://forecastflow-7xq6.onrender.com/docs
 
 ---
 
-## 🧠 How it works
+## What this project does
 
-### 📊 Feature Engineering
+You give it recent values and it predicts the next value using a trained ML model.
 
-* Created lag features (previous values)
-* Added rolling averages
-* Used time-based features like month/year
+End-to-end flow:
 
----
-
-### 🤖 Model
-
-* Tried Prophet as a baseline
-* Final model: **XGBoost**
-* Achieved RMSE ≈ **46.45**
+**Data -> Features -> Model -> API -> UI -> Deployment**
 
 ---
 
-### ⚙️ Backend (FastAPI)
+## How it works
 
-* Built an API to serve predictions
-* Handles input + preprocessing
-* Returns prediction in real-time
+### Feature Engineering
 
----
-
-### ⚛️ Frontend (React)
-
-* Simple and clean UI
-* User enters values → clicks predict
-* Displays prediction instantly
-* Added basic chart for visualization
+- Created lag features from previous values
+- Added rolling averages
+- Used time-based features such as month and year
 
 ---
 
-### 🚀 Deployment
+### Model
 
-* Backend deployed on **Render**
-* Frontend deployed on **Vercel**
-* CI/CD using GitHub Actions
-* Dockerized for portability
+- Tried Prophet as a baseline
+- Final model: **XGBoost**
+- Achieved RMSE about **46.45**
 
 ---
 
-## 📁 Project Structure
+### Backend (FastAPI)
 
-```
+- Built an API to serve predictions
+- Handles input preprocessing
+- Returns predictions in real time
+
+---
+
+### Frontend (React)
+
+- Simple UI for entering recent values
+- Sends requests to the backend API
+- Displays prediction results immediately
+
+---
+
+### Deployment
+
+- Backend deployed on **Render**
+- Frontend deployed on **Vercel**
+- CI/CD with GitHub Actions
+- Dockerized backend
+
+---
+
+## Project Structure
+
+```text
 forecastflow-core/
-│
-├── api/              # FastAPI backend
-├── src/              # ML pipeline
-├── artifacts/        # trained model
-├── forecastflow-ui/  # React frontend
+|-- api/              # FastAPI backend
+|-- src/              # ML pipeline
+|-- artifacts/        # trained model
+|-- forecastflow-ui/  # React frontend
 ```
 
 ---
 
-## 🚀 Run Locally
+## Run Locally
 
 ### Backend
 
-```
+```bash
 pip install -r requirements.txt
 python -m src.pipeline
 uvicorn api.app:app --reload
@@ -95,53 +93,57 @@ uvicorn api.app:app --reload
 
 ### Frontend
 
-```
+```bash
 cd forecastflow-ui
 npm install
 npm start
 ```
 
----
+Set the frontend API target in `forecastflow-ui/.env`:
 
-## 🧪 Example Input
-
-```
-380,390,400,410,420,430,440
+```env
+REACT_APP_API_BASE_URL=http://localhost:8000
 ```
 
 ---
 
-## 📈 Output
+## Deployment Notes
 
+Backend:
+The Docker build includes `artifacts/model.pkl`, so the FastAPI service can start on Render without retraining as long as that file remains in the repo.
+
+Frontend:
+Set `REACT_APP_API_BASE_URL` in your frontend host to the deployed backend URL. A template is provided in `forecastflow-ui/.env.example`.
+
+---
+
+## Example Input
+
+```text
+112,118,132,129,121,135,148,148,136,119,104,118,115,126
 ```
+
+---
+
+## Example Output
+
+```text
 Prediction: 491.93
 ```
 
 ---
 
-## 💡 What I learned
+## What I learned
 
-* How to move from notebook → real system
-* Importance of feature engineering in time-series
-* How to structure ML code properly
-* How to deploy models using APIs
-* How frontend + backend integrate in ML apps
-* Handling real deployment issues (Render, ports, dependencies, etc.)
+- How to move from notebook to a real system
+- Why feature engineering matters in time-series forecasting
+- How to structure ML code for reuse
+- How to deploy models behind APIs
+- How frontend and backend integrate in an ML app
 
 ---
 
-## 🔥 Why I built this
+## Why I built this
 
 Most ML projects stop at training a model.
-I wanted to understand how things work in production — how users actually interact with ML systems.
-
----
-
-## 👨‍💻 About me
-
-Hi, I’m Ankur 👋
-I’m learning ML/AI and focusing on building real-world, production-style projects.
-
----
-
-⭐ If you liked this project, feel free to star it!
+This project was built to understand how users actually interact with ML systems in production.
