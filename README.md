@@ -1,59 +1,149 @@
-# forecastflow-core
-The core Python library for the ForecastFlow MLOps platform.
-Project Title: ForecastFlow
-An End-to-End MLOps Platform for Time-Series Forecasting
+# ForecastFlow
 
-1. Executive Summary
-This project demonstrates a full-stack, end-to-end machine learning pipeline designed to solve a critical business problem: time-series forecasting. The platform, named "ForecastFlow," uses a robust architecture to ingest data, generate advanced features, and train a high-performance XGBoost model that can be used for real-world predictions.
+This is a full-stack machine learning project built to go beyond model training and into a more realistic application setup.
 
-The final model achieved a Root Mean Squared Error (RMSE) of 46.45 on the test set, outperforming a classic forecasting model and showcasing a highly accurate and scalable solution.
+The idea is simple:
+Take past time-series values and predict the next one.
 
-2. Key Features
-Advanced Feature Engineering: Creation of time-based, lag, and rolling window features from raw time-series data.
+Instead of stopping at a notebook, this project includes backend, frontend, CI, and deployment.
 
-Model Comparison: Implementation and evaluation of two distinct forecasting approaches: a statistical model (Prophet) and a machine learning model (XGBoost).
+---
 
-End-to-End Pipeline: The project covers the full machine learning lifecycle, from data handling to model training and evaluation.
+## Live Demo
 
-Professional Documentation: The entire process is documented to ensure reproducibility and clear communication of results.
+- Frontend: https://forecastflow-ui.vercel.app
+- Backend API: https://forecastflow-7xq6.onrender.com/docs
 
-3. Project Methodology
-The project followed a structured, professional workflow:
+---
 
-Data Ingestion & Validation: Cleaned and validated raw time-series data, ensuring the integrity of the datetime index.
+## What this project does
 
-Feature Engineering: Engineered a rich set of features, including year, month, lag_n, and rolling_mean, to provide the model with a deeper understanding of the time-series dynamics.
+You give it recent values and it predicts the next value using a trained ML model.
 
-Sequential Data Splitting: Used a sequential train/test split to prevent data leakage, a critical best practice in time-series forecasting.
+End-to-end flow:
 
-Model Training & Evaluation:
+**Data -> Features -> Model -> API -> UI -> Deployment**
 
-Baseline Model (Prophet): Trained Prophet to establish a robust baseline and capture seasonality.
+---
 
-Final Model (XGBoost): Trained XGBoost on the engineered features, utilizing early stopping to prevent overfitting and improve performance.
+## How it works
 
-Results & Analysis: The performance of both models was rigorously evaluated using RMSE, and the results were presented in a clear, professional summary.
+### Feature Engineering
 
-4. Results Summary
-Model	RMSE
-Prophet	[Insert Prophet's RMSE here]
-XGBoost	46.45
+- Created lag features from previous values
+- Added rolling averages
+- Used time-based features such as month and year
 
-Export to Sheets
+---
 
-5. How to Run the Project
-This project is a self-contained Kaggle notebook that is easy to reproduce.
+### Model
 
-Open the notebook on Kaggle.
+- Tried Prophet as a baseline
+- Final model: **XGBoost**
+- Achieved RMSE about **46.45**
 
-Run each cell sequentially.
+---
 
-Review the output and visualizations to see the end-to-end process and results.
+### Backend (FastAPI)
 
-6. Deployment Notes
+- Built an API to serve predictions
+- Handles input preprocessing
+- Returns predictions in real time
+
+---
+
+### Frontend (React)
+
+- Simple UI for entering recent values
+- Sends requests to the backend API
+- Displays prediction results immediately
+
+---
+
+### Deployment
+
+- Backend deployed on **Render**
+- Frontend deployed on **Vercel**
+- CI/CD with GitHub Actions
+- Dockerized backend
+
+---
+
+## Project Structure
+
+```text
+forecastflow-core/
+|-- api/              # FastAPI backend
+|-- src/              # ML pipeline
+|-- artifacts/        # trained model
+|-- forecastflow-ui/  # React frontend
+```
+
+---
+
+## Run Locally
+
+### Backend
+
+```bash
+pip install -r requirements.txt
+python -m src.pipeline
+uvicorn api.app:app --reload
+```
+
+### Frontend
+
+```bash
+cd forecastflow-ui
+npm install
+npm start
+```
+
+Set the frontend API target in `forecastflow-ui/.env`:
+
+```env
+REACT_APP_API_BASE_URL=http://localhost:8000
+```
+
+---
+
+## Deployment Notes
 
 Backend:
-The Docker build now includes `artifacts/model.pkl`, so the FastAPI service can start on Render without retraining as long as that file remains in the repo.
+The Docker build includes `artifacts/model.pkl`, so the FastAPI service can start on Render without retraining as long as that file remains in the repo.
 
 Frontend:
-Set `REACT_APP_API_BASE_URL` in your frontend host to the deployed backend URL. A template is provided in [forecastflow-ui/.env.example](/C:/Users/admin/Desktop/forecastflow-core/forecastflow-ui/.env.example).
+Set `REACT_APP_API_BASE_URL` in your frontend host to the deployed backend URL. A template is provided in `forecastflow-ui/.env.example`.
+
+---
+
+## Example Input
+
+```text
+112,118,132,129,121,135,148,148,136,119,104,118,115,126
+```
+
+---
+
+## Example Output
+
+```text
+Prediction: 491.93
+```
+
+---
+
+## What I learned
+
+- How to move from notebook to a real system
+- Why feature engineering matters in time-series forecasting
+- How to structure ML code for reuse
+- How to deploy models behind APIs
+- How frontend and backend integrate in an ML app
+
+---
+
+## Why I built this
+
+Most ML projects stop at training a model.
+This project was built to understand how users actually interact with ML systems in production.
