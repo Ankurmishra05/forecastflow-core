@@ -49,3 +49,11 @@ Open the notebook on Kaggle.
 Run each cell sequentially.
 
 Review the output and visualizations to see the end-to-end process and results.
+
+6. Deployment Notes
+
+Backend:
+The Docker build now includes `artifacts/model.pkl`, so the FastAPI service can start on Render without retraining as long as that file remains in the repo.
+
+Frontend:
+Set `REACT_APP_API_BASE_URL` in your frontend host to the deployed backend URL. A template is provided in [forecastflow-ui/.env.example](/C:/Users/admin/Desktop/forecastflow-core/forecastflow-ui/.env.example).

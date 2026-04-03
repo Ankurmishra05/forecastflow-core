@@ -1,5 +1,6 @@
 __pycache__/
 *.pyc
-artifacts/
+artifacts/*
+!artifacts/model.pkl
 .git
 .gitignore
