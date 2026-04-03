@@ -3,6 +3,8 @@ name: CI Pipeline
 on:
   push:
     branches: ["main"]
+  pull_request:
+    branches: ["main"]
 
 jobs:
   build:
@@ -21,6 +23,6 @@ jobs:
       run: |
         pip install -r requirements.txt
 
-    - name: Run ML Pipeline
+    - name: Run Backend Tests
       run: |
-        python -m src.pipeline
+        python -m unittest discover -s tests -q
